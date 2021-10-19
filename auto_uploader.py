@@ -37,3 +37,4 @@ channel = "https://www.youtube.com/channel/UC3b1prOA-wTLQ5EFJEqQh-A"
 
 episode = get_latest_episode(channel)
 print(episode.title)
+print(episode.latest)
