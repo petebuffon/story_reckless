@@ -28,7 +28,7 @@ def get_latest_episode(channel):
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         tmp_dict = ydl.extract_info(channel, False)
-    episode = Episode(tmp_dict)
+    episode = Episode(tmp_dict["entries"][0])
     # if episode.latest:
     #     return episode
     return episode
