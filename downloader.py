@@ -14,6 +14,8 @@ class Episode():
             self.episode = m[1]
         elif "Postmortem" in self.title:
             self.episode = "Postmortem"
+        elif "Prologue" in self.title:
+            self.episode = "Prologue"
         self.latest = (datetime.now() - self.upload).seconds > 86400
     
     def __repr__(self):
