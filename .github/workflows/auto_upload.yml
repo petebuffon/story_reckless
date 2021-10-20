@@ -8,8 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: auto_upload
+        env:
+          - EMAIL: ${{ secrets.EMAIL }} 
+            PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          # sudo apt-get update && sudo apt-get install -y python3
+          sudo apt-get update && sudo apt-get install -y python3-selenium ffmpeg
           python3 -m pip install --user yt-dlp
-          ls -a
           python3 auto_uploader.py

@@ -1,41 +1,26 @@
-
-import re
-from datetime import datetime
-import yt_dlp
-
-
-class Episode():
-    def __init__(self, entry):
-        self.video_id = entry["id"]
-        self.title = entry["title"]
-        self.description = entry["description"]
-        self.upload = datetime.strptime(entry["upload_date"], "%Y%m%d")
-        self.season = re.match(".*Adventure (\d)*", self.title)[1]
-        if m := re.match(".*Episode (\d)", self.title):
-            episode = m[1]
-        elif "Postmortem" in self.title:
-            self.episode = "Postmortem"
-        self.latest = (datetime.now() - self.upload).seconds > 86400
-    
-    def __repr__(self):
-        return self.video_id
+from downloader import get_latest_episode, download
+from normalizer import loudnorm
+from uploader import anchor_upload
 
 
-def get_latest_episode(channel):
-    ydl_opts = {
-        "playlist_items": "1",
-        "quiet": True
-    }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        tmp_dict = ydl.extract_info(channel, False)
-    episode = Episode(tmp_dict["entries"][0])
-    # if episode.latest:
-    #     return episode
-    return episode
+def norm(episode, filename, download_dir):
+    input_path = download_dir + filename
+    output_path = download_dir + episode.video_id + "_norm.m4a"
+    loudnorm(input_path, output_path)
+
+
+def upload(episode, filename, download_dir):
+    input_path = download_dir + filename
+    try:
+        anchor_upload(episode, input_path)
+    except Exception as e:
+        print(e, " , upload failed.")
 
 
 channel = "https://www.youtube.com/channel/UC3b1prOA-wTLQ5EFJEqQh-A"
+download_dir = "/tmp/"
 
 episode = get_latest_episode(channel)
-print(episode.title)
-print(episode.latest)
+download(episode.video_id, download_dir)
+norm(episode, episode.video_id + ".m4a", download_dir)
+upload(episode, episode.video_id + "_norm.m4a", download_dir)
