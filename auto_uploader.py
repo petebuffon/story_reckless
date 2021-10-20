@@ -23,7 +23,8 @@ class Episode():
 
 def get_latest_episode(channel):
     ydl_opts = {
-        "playlist_items": 1
+        "playlist_items": "1",
+        "quiet": True
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         tmp_dict = ydl.extract_info(channel, False)
