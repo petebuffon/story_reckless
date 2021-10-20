@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: auto_upload
         run: |
-          sudo apt-get update && sudo apt-get install -y python3
+          # sudo apt-get update && sudo apt-get install -y python3
           python3 -m pip install --user yt-dlp
           ls -a
           python3 auto_uploader.py
