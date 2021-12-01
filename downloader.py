@@ -1,3 +1,4 @@
+import sys
 import re
 from datetime import datetime
 import yt_dlp
