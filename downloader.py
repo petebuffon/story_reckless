@@ -17,7 +17,7 @@ class Episode():
             self.episode = "Postmortem"
         elif "Prologue" in self.title:
             self.episode = "Prologue"
-        self.latest = (datetime.now() - self.upload).total_seconds() < 86400
+        self.latest = (datetime.now() - self.upload).total_seconds() < 172800
     
     def __repr__(self):
         return self.video_id
