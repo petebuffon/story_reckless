@@ -10,15 +10,20 @@ class Episode():
         self.title = entry["title"]
         self.description = entry["description"]
         self.upload = datetime.strptime(entry["upload_date"], "%Y%m%d")
-        self.season = re.match(".*Adventure (\d)*", self.title)[1]
+        if m := re.match(".*Adventure (\d)*", self.title):
+            self.season = m[1]
+        else:
+            self.season = ""
         if m := re.match(".*Episode (\d)*", self.title):
             self.episode = m[1]
         elif "Postmortem" in self.title:
             self.episode = "Postmortem"
         elif "Prologue" in self.title:
             self.episode = "Prologue"
+        else:
+            self.episode = ""
         self.latest = (datetime.now() - self.upload).total_seconds() < 172800
-    
+
     def __repr__(self):
         return self.video_id
 
