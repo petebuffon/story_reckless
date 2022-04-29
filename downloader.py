@@ -22,24 +22,19 @@ class Episode():
             self.episode = "Prologue"
         else:
             self.episode = ""
-        self.latest = (datetime.now() - self.upload).total_seconds() < 172800
-
+    
     def __repr__(self):
         return self.video_id
 
 
-def get_latest_episode(channel):
+def get_episode(channel, playlist_item):
     ydl_opts = {
-        "playlist_items": "1",
+        "playlist_items": str(playlist_item),
         "quiet": True
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         tmp_dict = ydl.extract_info(channel, False)
     episode = Episode(tmp_dict["entries"][0])
-    if episode.latest:
-        return episode
-    else:
-        sys.exit("Episode not uploaded within last 24h.")
     return episode
 
 
